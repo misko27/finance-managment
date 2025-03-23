@@ -16,7 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideIonicAngular(),
     provideHttpClient(),
-    // Poskytnutie Storage pre celú aplikáciu
     {
       provide: Storage,
       useFactory: () => {

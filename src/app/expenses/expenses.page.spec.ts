@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { ExpensesPage } from './expenses.page.component';
+import { ExpensesPage } from './expenses.page';
 
 describe('ExpensesPage', () => {
   let component: ExpensesPage;

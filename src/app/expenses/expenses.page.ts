@@ -1,18 +1,17 @@
-// src/app/expenses/expenses.page.ts
 import { Component, OnInit, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AddExpenseFormComponent } from './add-expense-form/add-expense-form.component';
-import { Transaction } from '../models/transaction.model';
-import { ExpenseCategory } from '../models/expense-category.model';
 import { TransactionService } from '../services/transaction.service';
 import { CategoryService } from '../services/category.service';
+import { Transaction } from '../models/transaction.model';
+import { ExpenseCategory } from '../models/expense-category.model';
 
 @Component({
   selector: 'app-expenses',
-  templateUrl: './expenses.page.component.html',
-  styleUrls: ['./expenses.page.component.scss'],
+  templateUrl: './expenses.page.html',
+  styleUrls: ['./expenses.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, RouterModule],
 })
@@ -21,6 +20,7 @@ export class ExpensesPage implements OnInit {
   categories: ExpenseCategory[] = [];
   categoryMap: Map<string, ExpenseCategory> = new Map();
   groupedExpenses: { date: string; items: Transaction[] }[] = [];
+  Math = Math; // Sprístupnenie Math objektu pre šablónu
 
   // Použitie inject() namiesto konštruktora
   private modalController = inject(ModalController);

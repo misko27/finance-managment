@@ -7,9 +7,11 @@ import {
 } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { ExpenseCategory } from 'src/app/models/expense-category.model';
-import { CategoryService } from 'src/app/services/category.service';
-import { TransactionService } from 'src/app/services/transaction.service';
+import { CategoryService } from '../../services/category.service';
+import { TransactionService } from '../../services/transaction.service';
+import { ExpenseCategory } from '../../models/expense-category.model';
+import { Transaction } from 'src/app/models/transaction.model';
+import { RecurrenceType } from 'src/app/models/recurrence.model';
 
 @Component({
   selector: 'app-add-expense-form',
@@ -78,7 +80,7 @@ export class AddExpenseFormComponent implements OnInit {
     // Výdavky ukladáme so zápornou hodnotou
     const amount = -Math.abs(formValue.amount);
 
-    let transaction = {
+    let transactionData: Partial<Transaction> = {
       amount,
       description: formValue.description,
       date: new Date(formValue.date),
@@ -89,17 +91,16 @@ export class AddExpenseFormComponent implements OnInit {
     };
 
     if (formValue.isRecurring) {
-      transaction = {
-        ...transaction,
-        recurrencePattern: {
-          type: formValue.recurrenceType,
-          interval: formValue.interval,
-          endDate: formValue.endDate ? new Date(formValue.endDate) : undefined,
-        },
+      transactionData.recurrencePattern = {
+        type: formValue.recurrenceType as RecurrenceType,
+        interval: formValue.interval,
+        endDate: formValue.endDate ? new Date(formValue.endDate) : undefined,
       };
     }
 
-    await this.transactionService.addTransaction(transaction);
+    await this.transactionService.addTransaction(
+      transactionData as Omit<Transaction, 'id'>
+    );
     this.dismissModal(true);
   }
 

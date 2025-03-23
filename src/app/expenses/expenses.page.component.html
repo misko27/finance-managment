@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Výdavky</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddExpenseModal()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment value="list">
+    <ion-segment-button value="list">
+      <ion-label>Zoznam</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="categories">
+      <ion-label>Kategórie</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  @if (groupedExpenses.length === 0) {
+  <div class="ion-padding ion-text-center">
+    <ion-icon
+      name="cash-outline"
+      style="font-size: 64px; color: var(--ion-color-medium)"
+    ></ion-icon>
+    <p>Zatiaľ nemáte žiadne výdavky v tomto mesiaci.</p>
+    <ion-button (click)="openAddExpenseModal()"> Pridať výdavok </ion-button>
+  </div>
+  } @for (group of groupedExpenses; track group.date) {
+  <ion-list-header>
+    {{ formatDate(group.date) }}
+  </ion-list-header>
+
+  <ion-list>
+    @for (expense of group.items; track expense.id) {
+    <ion-item-sliding>
+      <ion-item>
+        <ion-avatar
+          slot="start"
+          [style.background-color]="getCategoryColor(expense.categoryId)"
+        >
+          <ion-icon
+            name="cash-outline"
+            class="ion-padding"
+            color="light"
+          ></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ expense.description }}</h2>
+          <p>{{ getCategoryName(expense.categoryId) }}</p>
+          @if (expense.location) {
+          <p>{{ expense.location }}</p>
+          }
+        </ion-label>
+        <ion-note slot="end" color="danger"
+          >{{ Math.abs(expense.amount).toFixed(2) }} €</ion-note
+        >
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteExpense(expense.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+        <ion-item-option>
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    }
+  </ion-list>
+  }
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="openAddExpenseModal()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

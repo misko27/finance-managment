@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,9 +7,9 @@ import {
 } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { CategoryService } from '../../services/category.service';
-import { TransactionService } from '../../services/transaction.service';
-import { ExpenseCategory } from '../../models/expense-category.model';
+import { ExpenseCategory } from 'src/app/models/expense-category.model';
+import { CategoryService } from 'src/app/services/category.service';
+import { TransactionService } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-add-expense-form',
@@ -23,12 +23,13 @@ export class AddExpenseFormComponent implements OnInit {
   categories: ExpenseCategory[] = [];
   showRecurringOptions = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private modalController: ModalController,
-    private categoryService: CategoryService,
-    private transactionService: TransactionService
-  ) {
+  // Použitie inject() namiesto konštruktora
+  private formBuilder = inject(FormBuilder);
+  private modalController = inject(ModalController);
+  private categoryService = inject(CategoryService);
+  private transactionService = inject(TransactionService);
+
+  constructor() {
     this.expenseForm = this.formBuilder.group({
       amount: ['', [Validators.required, Validators.min(0.01)]],
       description: ['', Validators.required],

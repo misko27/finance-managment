@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Finančný Manažment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Tento mesiac</ion-card-subtitle>
+      <ion-card-title>Prehľad rozpočtu</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="budget-info">
+              <h2>Príjmy</h2>
+              <h3 class="income-amount">1200 €</h3>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="budget-info">
+              <h2>Výdavky</h2>
+              <h3 class="expense-amount">850 €</h3>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="budget-info">
+              <h2>Zostáva</h2>
+              <h3 class="remaining-amount">350 €</h3>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Rýchle akcie</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" color="success">
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+        Pridať príjem
+      </ion-button>
+      <ion-button expand="block" color="danger">
+        <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+        Pridať výdavok
+      </ion-button>
+      <ion-button expand="block" color="tertiary">
+        <ion-icon slot="start" name="flag-outline"></ion-icon>
+        Nový finančný cieľ
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Nadchádzajúce platby</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <h2>Nájomné</h2>
+            <p>Splatné: 1.4.2025</p>
+          </ion-label>
+          <ion-note slot="end" color="danger">450 €</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2>Energia</h2>
+            <p>Splatné: 15.4.2025</p>
+          </ion-label>
+          <ion-note slot="end" color="danger">85 €</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2>Internet</h2>
+            <p>Splatné: 20.4.2025</p>
+          </ion-label>
+          <ion-note slot="end" color="danger">25 €</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

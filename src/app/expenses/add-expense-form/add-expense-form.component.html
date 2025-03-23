@@ -1,0 +1,152 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Pridať výdavok</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Suma (€)</ion-label>
+        <ion-input
+          type="number"
+          formControlName="amount"
+          placeholder="0.00"
+          step="0.01"
+          min="0.01"
+        ></ion-input>
+      </ion-item>
+      <ion-text
+        color="danger"
+        class="ion-padding-start"
+        *ngIf="
+          expenseForm.get('amount')?.invalid &&
+          expenseForm.get('amount')?.touched
+        "
+      >
+        <small>Zadajte platnú sumu</small>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked">Popis</ion-label>
+        <ion-input
+          type="text"
+          formControlName="description"
+          placeholder="Za čo ste zaplatili?"
+        ></ion-input>
+      </ion-item>
+      <ion-text
+        color="danger"
+        class="ion-padding-start"
+        *ngIf="
+          expenseForm.get('description')?.invalid &&
+          expenseForm.get('description')?.touched
+        "
+      >
+        <small>Popis je povinný</small>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked">Dátum</ion-label>
+        <ion-datetime formControlName="date" presentation="date"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Kategória</ion-label>
+        <ion-select
+          formControlName="categoryId"
+          placeholder="Vyberte kategóriu"
+        >
+          <ion-select-option
+            *ngFor="let category of categories"
+            [value]="category.id"
+          >
+            {{ category.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-text
+        color="danger"
+        class="ion-padding-start"
+        *ngIf="
+          expenseForm.get('categoryId')?.invalid &&
+          expenseForm.get('categoryId')?.touched
+        "
+      >
+        <small>Vyberte kategóriu</small>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked">Spôsob platby</ion-label>
+        <ion-select
+          formControlName="paymentMethod"
+          placeholder="Vyberte spôsob platby"
+        >
+          <ion-select-option value="cash">Hotovosť</ion-select-option>
+          <ion-select-option value="card">Platobná karta</ion-select-option>
+          <ion-select-option value="transfer">Bankový prevod</ion-select-option>
+          <ion-select-option value="online">Online platba</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Miesto</ion-label>
+        <ion-input
+          type="text"
+          formControlName="location"
+          placeholder="Kde ste nakupovali?"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Opakujúca sa platba</ion-label>
+        <ion-toggle formControlName="isRecurring"></ion-toggle>
+      </ion-item>
+
+      <div *ngIf="showRecurringOptions">
+        <ion-item>
+          <ion-label position="stacked">Opakovanie</ion-label>
+          <ion-select
+            formControlName="recurrenceType"
+            placeholder="Vyberte typ opakovania"
+          >
+            <ion-select-option value="daily">Denne</ion-select-option>
+            <ion-select-option value="weekly">Týždenne</ion-select-option>
+            <ion-select-option value="monthly">Mesačne</ion-select-option>
+            <ion-select-option value="quarterly">Štvrťročne</ion-select-option>
+            <ion-select-option value="yearly">Ročne</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Interval</ion-label>
+          <ion-input
+            type="number"
+            formControlName="interval"
+            min="1"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Dátum ukončenia (voliteľný)</ion-label>
+          <ion-datetime
+            formControlName="endDate"
+            presentation="date"
+          ></ion-datetime>
+        </ion-item>
+      </div>
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" [disabled]="expenseForm.invalid"
+        >Uložiť výdavok</ion-button
+      >
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,48 @@
+.budget-info {
+  text-align: center;
+  padding: 10px 0;
+
+  h2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: var(--ion-color-medium);
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .income-amount {
+    color: var(--ion-color-success);
+  }
+
+  .expense-amount {
+    color: var(--ion-color-danger);
+  }
+
+  .remaining-amount {
+    color: var(--ion-color-primary);
+  }
+}
+
+ion-button {
+  margin-bottom: 10px;
+}
+
+.category-budget {
+  margin-bottom: 15px;
+
+  .budget-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  ion-progress-bar {
+    --buffer-background: var(--ion-color-light);
+    height: 10px;
+  }
+}

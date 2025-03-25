@@ -7,7 +7,7 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Tento mesiac</ion-card-subtitle>
+      <ion-card-subtitle>{{ currentMonth }}</ion-card-subtitle>
       <ion-card-title>Prehľad rozpočtu</ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -16,19 +16,21 @@
           <ion-col>
             <div class="budget-info">
               <h2>Príjmy</h2>
-              <h3 class="income-amount">1200 €</h3>
+              <h3 class="income-amount">{{ monthlySummary.income }} €</h3>
             </div>
           </ion-col>
           <ion-col>
             <div class="budget-info">
               <h2>Výdavky</h2>
-              <h3 class="expense-amount">850 €</h3>
+              <h3 class="expense-amount">
+                {{ Math.abs(monthlySummary.expenses) }} €
+              </h3>
             </div>
           </ion-col>
           <ion-col>
             <div class="budget-info">
               <h2>Zostáva</h2>
-              <h3 class="remaining-amount">350 €</h3>
+              <h3 class="remaining-amount">{{ monthlySummary.balance }} €</h3>
             </div>
           </ion-col>
         </ion-row>
@@ -45,7 +47,7 @@
         <ion-icon slot="start" name="add-circle-outline"></ion-icon>
         Pridať príjem
       </ion-button>
-      <ion-button expand="block" color="danger">
+      <ion-button expand="block" color="danger" (click)="openAddExpenseModal()">
         <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
         Pridať výdavok
       </ion-button>
@@ -62,28 +64,66 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list>
+        @for (payment of upcomingPayments; track payment.name) {
         <ion-item>
           <ion-label>
-            <h2>Nájomné</h2>
-            <p>Splatné: 1.4.2025</p>
+            <h2>{{ payment.name }}</h2>
+            <p>Splatné: {{ formatDate(payment.date) }}</p>
           </ion-label>
-          <ion-note slot="end" color="danger">450 €</ion-note>
+          <ion-note slot="end" color="danger">{{ payment.amount }} €</ion-note>
         </ion-item>
-        <ion-item>
-          <ion-label>
-            <h2>Energia</h2>
-            <p>Splatné: 15.4.2025</p>
-          </ion-label>
-          <ion-note slot="end" color="danger">85 €</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <h2>Internet</h2>
-            <p>Splatné: 20.4.2025</p>
-          </ion-label>
-          <ion-note slot="end" color="danger">25 €</ion-note>
-        </ion-item>
+        }
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Posledné transakcie</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        @for (transaction of latestTransactions; track transaction.id) {
+        <ion-item>
+          <ion-label>
+            <h2>{{ transaction.description }}</h2>
+            <p>{{ transaction.date | date:'dd.MM.yyyy' }}</p>
+          </ion-label>
+          <ion-note
+            slot="end"
+            [color]="transaction.isExpense ? 'danger' : 'success'"
+          >
+            {{ transaction.isExpense ? '-' : '+' }}{{
+            Math.abs(transaction.amount) }} €
+          </ion-note>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  @if (categoryBudgets.length > 0) {
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Rozpočty kategórií</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      @for (budget of categoryBudgets; track budget.category.id) {
+      <div class="category-budget">
+        <div class="budget-header">
+          <span [style.color]="budget.category.color"
+            >{{ budget.category.name }}</span
+          >
+          <span>{{ Math.abs(budget.spent) }} / {{ budget.limit }} €</span>
+        </div>
+        <ion-progress-bar
+          [value]="budget.percentage / 100"
+          [color]="budget.isOverBudget ? 'danger' : 'primary'"
+        >
+        </ion-progress-bar>
+      </div>
+      }
+    </ion-card-content>
+  </ion-card>
+  }
 </ion-content>
